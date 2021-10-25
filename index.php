@@ -31,61 +31,60 @@ $waterHtml = '';
 $weatherHtml = '';
 $cameraHtml = '';
 try {
-    $dbh = new PDO('pgsql:host=localhost;dbname=timakan', $USER, $PW);
-    if($dbh) {
-		// Water stations
-		$waterSql = "SELECT name, gid FROM water_stations ORDER BY name";
-		$waterStmt = $dbh->prepare($waterSql);
-        if ($waterStmt->execute()) {
-            while ($row = $waterStmt->fetch(PDO::FETCH_ASSOC)) {
-				$waterHtml.="<a href='water/{$row['gid']}'>{$row['name']}</a>";
-			}
-        } else {
-            error_log(print_r($dbh->errorInfo()), true);
-        }
-		
-		// Cameras
-		$cameraSql = "SELECT name, serial FROM camera_stations ORDER BY name";
-		$cameraStmt = $dbh->prepare($cameraSql);
-        if ($cameraStmt->execute()) {
-            while ($row = $cameraStmt->fetch(PDO::FETCH_ASSOC)) {
-				$cameraHtml.="<a href='surv_img/{$row['serial']}.jpeg'>{$row['name']}</a>";
-			}
-		
-        } else {
-            error_log(print_r($dbh->errorInfo()), true);
-        }
-		
-		// Weather stations
-		$weatherSql = "SELECT name, serial, publisher, url FROM weather_stations ORDER BY name";
-		$weatherStmt = $dbh->prepare($weatherSql);
-        if ($weatherStmt->execute()) {
-            while ($row = $weatherStmt->fetch(PDO::FETCH_ASSOC)) {
-				switch($row['publisher']) {
-					case 'Info-Climat':
-						$t = <<<EOT
+  $dbh = new PDO('pgsql:host=localhost;dbname=timakan', $USER, $PW);
+  if($dbh) {
+    // Water stations
+    $waterSql = "SELECT name, gid FROM water_stations ORDER BY name";
+    $waterStmt = $dbh->prepare($waterSql);
+    if ($waterStmt->execute()) {
+      while ($row = $waterStmt->fetch(PDO::FETCH_ASSOC)) {
+        $waterHtml.="<a href='water/{$row['gid']}'>{$row['name']}</a>";
+      }
+    } else {
+      error_log(print_r($dbh->errorInfo()), true);
+    }
+  
+    // Cameras
+    $cameraSql = "SELECT name, serial FROM camera_stations ORDER BY name";
+    $cameraStmt = $dbh->prepare($cameraSql);
+    if ($cameraStmt->execute()) {
+      while ($row = $cameraStmt->fetch(PDO::FETCH_ASSOC)) {
+        $cameraHtml.="<a href='surv_img/{$row['serial']}.jpeg'>{$row['name']}</a>";
+      }
+    } else {
+      error_log(print_r($dbh->errorInfo()), true);
+    }
+  
+    // Weather stations
+    $weatherSql = "SELECT name, serial, publisher, url FROM weather_stations ORDER BY name";
+    $weatherStmt = $dbh->prepare($weatherSql);
+    if ($weatherStmt->execute()) {
+      while ($row = $weatherStmt->fetch(PDO::FETCH_ASSOC)) {
+        switch($row['publisher']) {
+          case 'Info-Climat':
+            $t = <<<EOT
 <form action="http://www.cgfv.gouv.qc.ca/climat/donnees/OQMultiple.asp" method="post">
-	<input type="text" style="display:none;" id="cle" name="cle" value="{$row['serial']}"></input>
-    <input type="text" style="display:none;" id="type_graphique" name="type_graphique" value="Sommaire+climatologique"></input>
-    <input type="text" style="display:none;" id="une_cle" name="une_cle" value="{$row['serial']}"></input>
-    <button type="submit">{$row['name']}</button>
+<input type="text" style="display:none;" id="cle" name="cle" value="{$row['serial']}"></input>
+  <input type="text" style="display:none;" id="type_graphique" name="type_graphique" value="Sommaire+climatologique"></input>
+  <input type="text" style="display:none;" id="une_cle" name="une_cle" value="{$row['serial']}"></input>
+  <button type="submit">{$row['name']}</button>
 </form>
 EOT;
-						$weatherHtml.=$t;
-						break;
-					case "Environnement Canada":
-						$weatherHtml .= "<a href='{$row['url']}'>{$row['name']}</a>";
-						break;
-					case "Weather Underground":
-						$weatherHtml .= "<a href='https://www.wunderground.com/dashboard/pws/{$row['serial']}'>{$row['name']}</a>";
-				}
-			}
-        } else {
-            error_log(print_r($dbh->errorInfo()), true);
+            $weatherHtml.=$t;
+            break;
+          case "Environnement Canada":
+            $weatherHtml .= "<a href='{$row['url']}'>{$row['name']}</a>";
+            break;
+          case "Weather Underground":
+            $weatherHtml .= "<a href='https://www.wunderground.com/dashboard/pws/{$row['serial']}'>{$row['name']}</a>";
         }
+      }
+    } else {
+      error_log(print_r($dbh->errorInfo()), true);
     }
+  }
 } catch(Exception $e) {
-    error_log($e->getMessage());
+  error_log($e->getMessage());
 }
 ?>
 <header>
