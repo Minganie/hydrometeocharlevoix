@@ -125,7 +125,20 @@ EOT;
   </div>
 </div>
 <footer>
-  <div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  <div>
+    <a class="dot" href="https://www.baiesaintpaul.com/" target="_blank" title="Un outil de la Ville de Baie-Saint-Paul">
+      <img src="icons/bsp.png">
+    </a>
+    <a class="dot" href="http://www.sainturbain.qc.ca/fr/" target="_blank" title="En collaboration avec la Corporation municipale de la paroisse de Saint-Urbain">
+      <img src="icons/stu.png">
+    </a>
+    <a class="dot" href="https://charlevoixmontmorency.ca/" target="_blank" title="En collaboration avec l'Organisme de bassins versants Charlevoix-Montmorency">
+      <img src="icons/obvcm.png">
+    </a>
+    <a class="dot" href="http://resourcefullstack.com/" target="_blank" title="Une réalisation de Myriam Luce, informaticienne">
+      <img src="icons/myriam.png">
+    </a>
+  </div>
   <div class="overlay"></div>
 </footer>
 <script>

@@ -194,6 +194,9 @@ body > footer {
   height: 160px;
   overflow: hidden;
 }
+body > footer > div {
+  display: flex;
+}
 body > footer > div:first-child {
   height: 160px;
 }
@@ -206,23 +209,17 @@ body > footer > div.overlay {
   opacity: 0.4;
   z-index: -1;
 }
-body > footer div.dot {
+body > footer .dot {
   width: 76px;
   height: 76px;
   border-radius: 50%;
   background-color: white;
   margin: 42px 0 0 32px;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-body > footer div.dot:nth-child(1) {
-    background: url('../icons/bsp.png') center no-repeat, white;
-    background-size: 70px;
-}
-body > footer div.dot:nth-child(2) {
-    background: url('../icons/stu.png') center no-repeat, white;
-    background-size: 70px;
-}
-body > footer div.dot:nth-child(3) {
-    background: url('../icons/obvcm.jpg') center no-repeat, white;
-    background-size: 70px;
+body > footer .dot img {
+  max-width: 70px;
+  max-height: 70px;
 }
