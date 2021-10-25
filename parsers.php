@@ -7,7 +7,7 @@ function parseTides($url) {
     $dom->loadHTML($html);
     $xpath = new DOMXpath($dom);
     
-    $parent = "/html/body/div[1]/div[3]/div/div/div/div/div[3]/div[3]/table/tbody/tr[1]";
+    $parent = "/html/body/div[1]/div[3]/div/div/div/div/div[4]/div[3]/table/tbody/tr[1]";
     $tds = $xpath->query($parent."/td");
     $jsonwannabe = array();
     if($tds->length != 24) {
