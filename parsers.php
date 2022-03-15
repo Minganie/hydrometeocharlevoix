@@ -7,15 +7,15 @@ function parseTides($url) {
     $dom->loadHTML($html);
     $xpath = new DOMXpath($dom);
     
-    $parent = "/html/body/div[1]/div[3]/div/div/div/div/div[4]/div[3]/table/tbody/tr[1]";
+    $parent = "//*[@id='readings-list-hourly-heights']/tbody/tr[1]";
     $tds = $xpath->query($parent."/td");
     $jsonwannabe = array();
-    if($tds->length != 24) {
+    if($tds->length != 25) {
         error_log("Error while parsing tides for url '$url': found {$tds->length} hours");
     } else {
-        $i = 0;
-        foreach($tds as $td) {
-            $jsonwannabe[] = array($i++, floatval($td->textContent));
+        for($i = 1; $i < 25; $i++) {
+            $td = $tds[$i];
+            $jsonwannabe[] = array($i-1, floatval($td->textContent));
         }
     }
     return json_encode($jsonwannabe);
